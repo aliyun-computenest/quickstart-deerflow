@@ -316,7 +316,7 @@ Resources:
         Ref: ZoneId
       SecurityGroupId:
         Ref: SecurityGroup
-      ImageId: ecs_image_deepseek-bailian
+      ImageId: centos_7
       Password:
         Ref: InstancePassword
       SystemDiskCategory:
