@@ -277,7 +277,7 @@ Resources:
           - Ref: EcsVpc
           - Ref: VpcId
       SecurityGroupIngress:
-        - PortRange: 8080/8080
+        - PortRange: 8000/8000
           Priority: 1
           SourceCidrIp: 0.0.0.0/0
           IpProtocol: tcp
@@ -287,7 +287,7 @@ Resources:
           SourceCidrIp: 0.0.0.0/0
           IpProtocol: tcp
           NicType: internet
-        - PortRange: 443/443
+        - PortRange: 3000/3000
           Priority: 1
           SourceCidrIp: 0.0.0.0/0
           IpProtocol: tcp
@@ -350,8 +350,7 @@ Resources:
 
             sed -i 's/TAVILY_API_KEY=tvly-xxx/TAVILY_API_KEY=${TavilyApiKey}/' /root/deer-flow/.env
 
-            SEARCH_KEY="api_key:"
-            sed -i "s|^$SEARCH_KEY.*|$SEARCH_KEY ${BaiLianApiKey}|" /root/deer-flow/conf.yaml
+            sed -i '/^BASIC_MODEL:/,/^$/ s|^\(  api_key:\).*$|\1 "'"${BaiLianApiKey}"'"|' /root/deer-flow/conf.yaml
 
             NEW_IP=$(curl -s ifconfig.me)
             sed -i -E "s|(http://)lovalhost(:8000/api/)|\1$NEW_IP\2|" /root/deer-flow/config.json
@@ -367,13 +366,13 @@ Resources:
               Ref: BaiLianApiKey
 
 Outputs:
-  open-webui_address:
+  DeerFlow_address:
     Description:
-      en: open-webui address.
-      zh-cn: open-webui 访问页面。
+      en: DeerFlow address.
+      zh-cn: DeerFlow 访问页面。
     Value:
       Fn::Sub:
-        - http://${ServerAddress}:8080
+        - http://${ServerAddress}:3000
         - ServerAddress:
             Fn::Select:
               - 0
