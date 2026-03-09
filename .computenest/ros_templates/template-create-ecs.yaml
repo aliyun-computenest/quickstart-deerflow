@@ -324,7 +324,7 @@ Resources:
             sed -i '/^BASIC_MODEL:/,/^$/ s|^\(  api_key:\).*$|\1 "'"${BaiLianApiKey}"'"|' /root/deer-flow/conf.yaml
 
             NEW_IP=$(curl -s ifconfig.me)
-            sed -i "s|http://localhost:8000|https://${NEW_IP}|g" /root/deer-flow/config.json
+            sed -i "s|http://localhost:8000|https://$NEW_IP|g" /root/deer-flow/config.json
             docker compose up -d
 
             sleep 15
